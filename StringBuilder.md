@@ -18,6 +18,11 @@ sb.append("ShenCodr");     // 现在是 "你好，ShenCodr"
 StringBuilder sb = new StringBuilder("你好！");
 sb.insert(2, "最"); // 在第2个位置（从0开始数）插入 "最" ,结果："你最好！"
 
+//setCharAt(int index, char ch)修改索引为i的字符为ch
+StringBuilder sb = new StringBuilder("我好帅");
+sb.setCharAt(2, '棒'); 
+System.out.println("修改后：" + sb); // 输出：我好棒
+
 //delete(int start, int end): 可以删除从 start 位置开始（包含）到 end 位置结束（不包含）的一段字符。
 StringBuilder sb = new StringBuilder("你们最最好了！");
 sb.delete(2, 4); // 删除索引2和3的字符 ("最最")
