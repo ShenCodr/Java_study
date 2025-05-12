@@ -29,3 +29,14 @@ names.remove(1); // 删除索引1的 "是"
 //size(): 获取列表里现在有多少个元素
 //isEmpty(): 检查列表是不是空的
 //clear(): 清空列表里所有的元素
+```
+
+**自定义排序方法：**
+```Java
+Collections.sort(list,new Comparator<Integer>() {//Comparator名字不能改
+            @Override
+            public int compare(Integer o1, Integer o2) {//compare名字不能改
+                return o1-o2;//compare 方法应该返回一个负数、零或正数，分别表示小于、等于或大于的关系
+            }
+        });
+```
