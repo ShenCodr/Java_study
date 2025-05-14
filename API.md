@@ -30,6 +30,8 @@ Runtime 类采用单例模式。通过静态方法 Runtime.getRuntime() 来获�
 System. exit(0)//退出虚拟机实际上就是
 Runtime.getRuntime().exit(0)
 
+//runtime.availableProcessors();返回Java虚拟机可用的处理及数量
+
 //runtime.freeMemory(): 返回 Java 虚拟机中的可用内存量（以字节为单位）。
 
 //runtime.totalMemory(): 返回 Java 虚拟机中的内存总量（以字节为单位）。
@@ -40,6 +42,7 @@ Runtime runtime = Runtime.getRuntime();
 long freeMemory = runtime.freeMemory();
 long totalMemory = runtime.totalMemory();
 long maxMemory = runtime.maxMemory();
+System.out.println("Available processors:"+runtime.availableProcessors());
 System.out.println("Free Memory: " + freeMemory / (1024 * 1024) + " MB");
 System.out.println("Total Memory: " + totalMemory / (1024 * 1024) + " MB");
 System.out.println("Max Memory: " + maxMemory / (1024 * 1024) + " MB");
@@ -53,6 +56,23 @@ Runtime.getRuntime().exec(string command);: 在单独的进程中执行指定的
 -a 取消关机
 -r 关机并重启
 Runtime。getRuntime().exec("shutdown -s -t 3600");3600秒后关机
+
+```
+
+## Objects
+需导入java.lang.Objects
+
+```Java
+Objects.isNull(object obj)//判断对象是否为null
+String s1="hello";
+java.util.objects.isNull(s1);//true
+
+Objects.equals(object a,object b)
+String s1="Hello";
+String s2="ShenCodr";
+String s3="Hello";
+java.util.objects.equals(s1,s2);//false
+java.util.objects.equals(s1,s3);//true
 
 ```
 
