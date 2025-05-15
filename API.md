@@ -92,6 +92,7 @@ BigInteger b3 = BigInteger.valueOf(100);//int转BigInteger
 常见用法：
 ```Java
 算术运算：
+
 add(BigInteger val): 加法
 subtract(BigInteger val): 减法
 multiply(BigInteger val): 乘法
@@ -102,7 +103,10 @@ pow(int exponent): 幂运算
 negate(): 取反
 abs(): 绝对值
 divideAndRemainder(BigInteger val): 返回一个包含商和余数的 BigInteger 数组。
+
+
 比较运算：
+
 compareTo(BigInteger val): 比较大小。返回 -1 (小于), 0 (等于), 1 (大于)。
 equals(Object x): 判断是否相等 (值必须完全相同)。
 min(BigInteger val): 返回较小值。
@@ -118,7 +122,10 @@ testBit(int n): 测试指定位是否为1。
 setBit(int n): 设置指定位为1。
 clearBit(int n): 清除指定位为0。
 flipBit(int n): 翻转指定位。
+
+
 转换：
+
 intValue(), longValue(), floatValue(), doubleValue(): 转换为基本类型，可能会有精度损失或溢出。
 toString(): 转换为十进制字符串。
 toString(int radix): 转换为指定进制的字符串。
@@ -171,6 +178,7 @@ BigDecimal bd8 = new BigDecimal(unscaledVal, scale); // 结果是 123.45
 常用方法：
 ```java
 算术运算：
+
 add(BigDecimal augend): 加法
 subtract(BigDecimal subtrahend): 减法
 multiply(BigDecimal multiplicand): 乘法
@@ -180,7 +188,10 @@ divide(BigDecimal divisor, RoundingMode roundingMode): 指定舍入模式的除�
 pow(int n): 幂运算。
 negate(): 取反。
 abs(): 绝对值。
+
+
 比较运算：
+
 compareTo(BigDecimal val): 比较数值大小，忽略标度。返回 -1, 0, 1。这是进行数值比较的首选方法。
 equals(Object x): 判断是否相等。注意：equals() 会同时比较值和标度 (scale)。 例如 new BigDecimal("2.0") 和 new BigDecimal("2.00") 的 equals() 返回 false，因为它们的标度不同，但 compareTo() 返回 0。
 标度 (Scale) 和精度 (Precision)：
@@ -198,7 +209,10 @@ HALF_UP: 四舍五入 (经典)。
 HALF_DOWN: 五舍六入。
 HALF_EVEN: 银行家舍入法 (向最接近的偶数舍入)。
 UNNECESSARY: 断言请求的操作具有精确结果，因此不需要舍入。如果需要舍入，则抛出 ArithmeticException。
+
 转换：
+
+
 intValue(), longValue(), floatValue(), doubleValue(): 转换为基本类型，可能精度损失或溢出。
 toString(): 转换为字符串，可能使用科学计数法 (如果指数很大)。
 toPlainString(): 转换为不带指数的字符串表示。
