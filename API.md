@@ -249,3 +249,212 @@ System.out.println("Rounded amount: " + roundedAmount); // 输出 123.46
 System.out.println("Plain string: " + new BigDecimal("1.23E+10").toPlainString()); // 12300000000
 toBigInteger(): 转换为 BigInteger (小数部分被丢弃)。
 ```
+
+
+## time（了解即可）
+
+```Java
+LocalDate:
+表示一个不带时间和时区的日期（年-月-日）。例如：2023-10-27。
+用于表示生日、纪念日等只关心日期的场景。
+LocalTime:
+表示一个不带日期和时区的时间（时-分-秒-纳秒）。例如：10:15:30.123456789。
+用于表示营业时间、事件发生时间等只关心时间的场景。
+LocalDateTime:
+表示一个不带时区的日期和时间。它是 LocalDate 和 LocalTime 的组合。例如：2023-10-27T10:15:30。
+用于表示特定事件的本地发生时间，不考虑时区差异。
+Instant:
+表示时间线上的一个瞬时点，精确到纳秒。它通常代表自 1970-01-01T00:00:00Z (UTC) 以来的秒数和纳秒数。
+与 java.util.Date 的概念最接近，但不可变且精度更高。非常适合用于记录事件时间戳、进行时间比较等。
+ZonedDateTime:
+表示一个带有时区的日期和时间。它将 LocalDateTime 与一个 ZoneId (时区ID) 结合起来。
+用于处理需要明确时区的场景，例如跨国会议安排、国际航班时间等。
+ZoneId 和 ZoneOffset:
+ZoneId: 表示一个时区标识符，例如 "Asia/Shanghai" 或 "Europe/Paris"。它包含了处理夏令时等复杂规则。
+ZoneOffset: 表示格林威治/UTC 时间的固定偏移量，例如 "+08:00"。
+Duration:
+表示以秒和纳秒为单位的时间量（时间跨度）。用于计算两个 Instant、LocalTime 或 LocalDateTime 之间的时间差。
+例如："3小时20分钟"。
+Period:
+表示以年、月、日为单位的日期量（日期跨度）。用于计算两个 LocalDate 之间的时间差。
+例如："2年3个月5天"。
+DateTimeFormatter:
+用于格式化日期时间对象为字符串，以及将字符串解析为日期时间对象。
+它是线程安全的，可以安全地在多线程环境中使用。
+提供了预定义的格式器，也支持自定义模式。
+TemporalAdjusters:
+一个工具类，提供了一系列有用的静态方法来调整日期时间对象，例如获取"当月的第一天"、"下一个星期二"等。
+```
+**示例：**
+```Java
+import java.time.*;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalAdjusters;
+import java.util.Date; // 仅用于与旧API转换示例
+
+public class JavaTimeExamples {
+
+    public static void main(String[] args) {
+        // --- 1. 创建日期和时间对象 ---
+        System.out.println("--- 创建对象 ---");
+        LocalDate today = LocalDate.now(); // 当前日期，例如：2023-10-27
+        System.out.println("LocalDate.now(): " + today);
+
+        LocalTime currentTime = LocalTime.now(); // 当前时间，例如：14:30:55.123456789
+        System.out.println("LocalTime.now(): " + currentTime);
+
+        LocalDateTime currentDateTime = LocalDateTime.now(); // 当前日期和时间
+        System.out.println("LocalDateTime.now(): " + currentDateTime);
+
+        Instant timestamp = Instant.now(); // 当前UTC时间戳
+        System.out.println("Instant.now(): " + timestamp);
+
+
+        // --- 2. 获取日期/时间的各个部分 ---
+        System.out.println("\n--- 获取部分 ---");
+        System.out.println("Year: " + today.getYear()); // 2023
+        System.out.println("Month (enum): " + today.getMonth()); // OCTOBER
+        System.out.println("Month (value): " + today.getMonthValue()); // 10
+        System.out.println("Day of month: " + today.getDayOfMonth()); // 27
+        System.out.println("Day of week: " + today.getDayOfWeek()); // FRIDAY
+        System.out.println("Day of year: " + today.getDayOfYear()); // 300 (例如)
+
+        System.out.println("Hour: " + currentTime.getHour());
+        System.out.println("Minute: " + currentTime.getMinute());
+        System.out.println("Second: " + currentTime.getSecond());
+        System.out.println("Nano: " + currentTime.getNano());
+
+        // --- 3. 日期/时间计算 (不可变性，返回新对象) ---
+        System.out.println("\n--- 日期计算 ---");
+        LocalDate tomorrow = today.plusDays(1);
+        System.out.println("Tomorrow: " + tomorrow);
+        LocalDate lastWeek = today.minusWeeks(1);
+        System.out.println("Last week: " + lastWeek);
+        LocalDateTime twoHoursLater = currentDateTime.plusHours(2);
+        System.out.println("Two hours later: " + twoHoursLater);
+
+        // 使用 withXxx() 修改字段 (返回新对象)
+        LocalDate firstDayOfMonth = today.withDayOfMonth(1);
+        System.out.println("First day of this month: " + firstDayOfMonth);
+        LocalTime atNoon = currentTime.withHour(12).withMinute(0).withSecond(0).withNano(0);
+        System.out.println("This time at noon: " + atNoon);
+
+        // --- 4. 格式化 (Date/Time -> String) 和解析 (String -> Date/Time) ---
+        System.out.println("\n--- 格式化与解析 ---");
+        DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String formattedDateTime = currentDateTime.format(formatter1);
+        System.out.println("Formatted (yyyy-MM-dd HH:mm:ss): " + formattedDateTime);
+
+        DateTimeFormatter formatter2 = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        String formattedDate = today.format(formatter2);
+        System.out.println("Formatted (dd/MM/yyyy): " + formattedDate);
+
+        // 使用预定义的格式器
+        DateTimeFormatter isoDateFormatter = DateTimeFormatter.ISO_DATE;
+        System.out.println("Formatted (ISO_DATE): " + today.format(isoDateFormatter));
+
+        DateTimeFormatter localizedFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL);
+        System.out.println("Formatted (Localized FULL): " + today.format(localizedFormatter)); // 依赖区域设置
+
+        // 解析
+        String dateStr = "2023-11-15";
+        LocalDate parsedDate = LocalDate.parse(dateStr); // 默认使用 ISO_LOCAL_DATE 格式
+        System.out.println("Parsed (default ISO): " + parsedDate);
+
+        String dateTimeStr = "2024/05/20 10:30";
+        DateTimeFormatter customParser = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm");
+        LocalDateTime parsedDateTime = LocalDateTime.parse(dateTimeStr, customParser);
+        System.out.println("Parsed (custom yyyy/MM/dd HH:mm): " + parsedDateTime);
+
+        // --- 5. 时区处理 (ZonedDateTime, ZoneId, ZoneOffset) ---
+        System.out.println("\n--- 时区处理 ---");
+        ZoneId shanghaiZone = ZoneId.of("Asia/Shanghai");
+        ZoneId newYorkZone = ZoneId.of("America/New_York");
+        ZoneId systemDefaultZone = ZoneId.systemDefault();
+
+        System.out.println("System default zone: " + systemDefaultZone);
+
+        ZonedDateTime shanghaiTime = ZonedDateTime.now(shanghaiZone);
+        System.out.println("Current time in Shanghai: " + shanghaiTime);
+
+        ZonedDateTime newYorkTime = ZonedDateTime.now(newYorkZone);
+        System.out.println("Current time in New York: " + newYorkTime);
+
+        // 将本地时间转换为特定时区的时间
+        LocalDateTime localEventTime = LocalDateTime.of(2024, 1, 1, 9, 0); // 假设是北京时间
+        ZonedDateTime beijingEventTime = localEventTime.atZone(shanghaiZone);
+        System.out.println("Event in Beijing: " + beijingEventTime);
+
+        // 转换到另一个时区，保持同一瞬间
+        ZonedDateTime newYorkEventTime = beijingEventTime.withZoneSameInstant(newYorkZone);
+        System.out.println("Same event in New York: " + newYorkEventTime);
+
+        // Instant 与 ZonedDateTime 转换
+        Instant eventInstant = beijingEventTime.toInstant();
+        System.out.println("Event as Instant (UTC): " + eventInstant);
+        ZonedDateTime fromInstant = eventInstant.atZone(ZoneId.of("Europe/London"));
+        System.out.println("Instant converted to London time: " + fromInstant);
+
+        // ZoneOffset
+        ZoneOffset offsetPlus8 = ZoneOffset.of("+08:00");
+        OffsetDateTime offsetDateTime = OffsetDateTime.now(offsetPlus8);
+        System.out.println("Current time with +08:00 offset: " + offsetDateTime);
+
+        // --- 6. 计算时间/日期差 (Duration, Period, ChronoUnit) ---
+        System.out.println("\n--- 时间差计算 ---");
+        LocalTime time1 = LocalTime.of(10, 0);
+        LocalTime time2 = LocalTime.of(12, 30, 15);
+        Duration duration = Duration.between(time1, time2);
+        System.out.println("Duration between " + time1 + " and " + time2 + ": " + duration); // PT2H30M15S
+        System.out.println("Duration in minutes: " + duration.toMinutes()); // 150
+        System.out.println("Duration in seconds: " + duration.getSeconds()); // 9015
+
+        LocalDate date1 = LocalDate.of(2023, 1, 1);
+        LocalDate date2 = LocalDate.of(2024, 3, 15);
+        Period period = Period.between(date1, date2);
+        System.out.println("Period between " + date1 + " and " + date2 + ": " + period); // P1Y2M14D
+        System.out.println("Period in months: " + period.toTotalMonths()); // 14
+        System.out.println("Period years: " + period.getYears() + ", months: " + period.getMonths() + ", days: " + period.getDays());
+
+        // ChronoUnit (更通用的单位计算)
+        long daysBetween = ChronoUnit.DAYS.between(date1, date2);
+        System.out.println("Days between (ChronoUnit): " + daysBetween);
+        long hoursBetween = ChronoUnit.HOURS.between(
+                LocalDateTime.of(date1, LocalTime.MIDNIGHT),
+                LocalDateTime.of(date2, LocalTime.NOON)
+        );
+        System.out.println("Hours between (ChronoUnit): " + hoursBetween);
+
+        
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
