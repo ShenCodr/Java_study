@@ -9,7 +9,7 @@ ArrayList<T> list=new ArrayList();//括号中可指定大小
 **用法：**
 ```Java
 //自带元素的初始化
-ArrayList<Integer> list=new ArrayList<>(List.of(1,2,3,4,5,6,7,8,9));
+ArrayList<Integer> list=new ArrayList<>(Arrays.asList(1,2,3,4,5,6,7,8,9));
 
 //add(E element): 把一个元素加到列表的末尾
 ArrayList<String> names = new ArrayList<>();
