@@ -4,5 +4,5 @@
 
 **2.再把文件拖入本地GitHub仓库**
 
-**3.再 git add 文件名，git commit -m "更新操作"，最后git push **
+**3.再 git add 文件名，git commit -m "更新操作"，最后git push**
 
